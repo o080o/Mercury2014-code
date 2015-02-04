@@ -7,6 +7,7 @@ void init(void);
 
 // Defined in motor_control.c
 void init_motors(void);
+void motor_controller_test();
 
 // Defined in usart.c
 void init_usart(void);
