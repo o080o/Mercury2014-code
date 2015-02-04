@@ -20,7 +20,8 @@ void phase( int p )
 {
 	p = p % 3
 	if ( p==0 ){
-		.....
+		turn_A_High()
+			turn_B_High()
 	} else if ( p==1 ){
 		...
 	} else if ( p==2 ) {
