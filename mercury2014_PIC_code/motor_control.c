@@ -6,18 +6,19 @@
 int leadA = %0000;
 int leadB = %0000;
 int leadC = %0000;
-int bitmap;
+int bitmask;
 int phase1;
 int phase2;
 int phase2;
 
+
 void init_motors(void)
 {
-	bitmap = leadA | leadB | leadC;
+	TRISC = (TRISC | bitmask ) ^ bitmask ;
+	bitmask = leadA | leadB | leadC;
 	phase1 = leadA | leadB;
 	phase2 = leadB | leadC;
 	phase3 = leadC | leadA;
-
 }
 
 
@@ -35,11 +36,11 @@ void phase( int p )
 {
 	p = p % 3
 	if ( p==0 ){
-		PORTC = (PORTC | bitmap) ^ phase1;
+		PORTC = (PORTC | bitmask) ^ phase1;
 	} else if ( p==1 ){
-		PORTC = (PORTC | bitmap) ^ phase2;
+		PORTC = (PORTC | bitmask) ^ phase2;
 	} else if ( p==2 ) {
-		PORTC = (PORTC | bitmap) ^ phase3;
+		PORTC = (PORTC | bitmask) ^ phase3;
 	}
 }
 
