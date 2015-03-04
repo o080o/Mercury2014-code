@@ -1,0 +1,2 @@
+// Compile ConsoleTest.java and XboxController.java using external libraries
+javac -cp lib\jinput.jar;lib\RXTXcomm.jar ConsoleTest.java XboxController.java
