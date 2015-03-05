@@ -20,26 +20,20 @@ int bitmaskR;
 int phase1R;
 int phase2R;
 int phase3R;
-int bitmaskL;
-int phase1L;
-int phase2L;
-int phase3L;
 
 void init_motors(void)
 {
+	// Right motor
 	bitmaskR = leadAHighR | leadALowR | leadBHighR | leadBLowR | leadCHighR | leadCLowR;
-	bitmaskL = leadAHighL | leadALowL | leadBHighL | leadBLowL | leadCHighL | leadCLowL;
-
 	TRISD = 0b00000000;//(TRISD | bitmaskR ) ^ bitmaskR ;
 	//bitmaskR = leadA | leadB | leadC;
 	phase1R = leadAHighR | leadBLowR;
 	phase2R = leadBHighR | leadCLowR;
 	phase3R = leadCHighR | leadALowR;
 
-	TRISA = ( TRISA | bitmaskL ) ^ bitmaskL;
-	phase1L = leadAHighL | leadBLowL;
-	phase2L = leadBHighL | leadCLowL;
-	phase3L = leadCHighL | leadALowL;
+	// Left motor
+	TRISD = TRISD & 0b11111100;
+	TRISB = TRISB & 0b11001001;
 }
 
 
@@ -65,7 +59,21 @@ void motor_controller_test(void)
 void phase( int p, char motor )
 {
 	p = p % 3;
-	if (motor == 0) {
+	if (motor == __MOTOR_R) {
+		if (p == 0)
+		{
+			
+		}
+		else if (p == 1)
+		{
+		
+		}
+		else if (p == 2)
+		{
+		
+		}
+	}
+	else if (motor == __MOTOR_L) {
 		if ( p==0 ){
 			PORTD = ( (PORTD | bitmaskR) ^ bitmaskR ) | phase1R;
 		} else if ( p==1 ){
@@ -73,9 +81,6 @@ void phase( int p, char motor )
 		} else if ( p==2 ) {
 			PORTD = ( (PORTD | bitmaskR) ^ bitmaskR ) | phase3R;
 		}
-	}
-	else if (motor == 1) {
-		
 	}
 }
 

@@ -3,19 +3,25 @@
 #endif
 
 // Pin definitions (PIC 1 - Motor control)
-#define __A_HIGH_1		RD2
-#define __A_LOW_1		RD3
-#define __B_HIGH_1		RD4
-#define __B_LOW_1		RD5
-#define __C_HIGH_1		RD6
-#define __C_LOW_1		RD7
+#define __A_HIGH_R		RD2
+#define __A_LOW_R		RD3
+#define __B_HIGH_R		RD4
+#define __B_LOW_R		RD5
+#define __C_HIGH_R		RD6
+#define __C_LOW_R		RD7
 
-#define __A_HIGH_2		RA0
-#define __A_LOW_2		RA1
-#define __B_HIGH_2		RA2
-#define __B_LOW_2		RA3
-#define __C_HIGH_2		RA4
-#define __C_LOW_2		RA5
+#define __A_HIGH_L		RD0
+#define __A_LOW_L		RD1
+#define __B_HIGH_L		RB1
+#define __B_LOW_L		RB2
+#define __C_HIGH_L		RB4
+#define __C_LOW_L		RB5
+
+#define __LCD			RC6
+
+// General definitions
+#define __MOTOR_R		0
+#define __MOTOR_L		1
 
 // Defined in main.c
 void init(void);
