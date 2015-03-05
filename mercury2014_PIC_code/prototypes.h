@@ -29,7 +29,7 @@ void init(void);
 // Defined in motor_control.c
 void init_motors(void);
 void motor_controller_test();
-void phase(int p);
+void phase(int p, char motor);
 
 // Defined in usart.c
 void init_usart(void);

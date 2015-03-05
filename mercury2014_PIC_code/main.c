@@ -22,13 +22,17 @@ int main()
 	init_usart();
 	__delay_ms(2000);
 	printf("Hello!");
-	while(1){
+
+	int i = 0;
+	for (i = 0; i < 3; i++){
 	RB0 = 0;
 	__delay_ms(1000);
 	RB0 = 1;
 	__delay_ms(1000);
 	}
-	//motor_controller_test();
+
+	motor_controller_test();
+
 	/*
 	while(1)
 	{
