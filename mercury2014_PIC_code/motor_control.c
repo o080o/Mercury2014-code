@@ -48,12 +48,12 @@ void motor_controller_test(void)
 		PORTD = 0b10010000;
 		__delay_ms(1000);
 	}*/
-	int p=0;
+	unsigned int p=0;
 	while( 1 ){
 		phase(p, __MOTOR_R);
 		phase(p, __MOTOR_L);
-		p++;
-		__delay_ms(1000);
+		//p++;
+		__delay_ms(5);
 	}
 
 }

@@ -18,13 +18,11 @@ int main()
 	RB0 = 1;
 
 	TRISD = 0b00000000;
-	__delay_ms(5000);
 	init_usart();
-	__delay_ms(2000);
 	printf("Hello!");
 
 	int i = 0;
-	for (i = 0; i < 3; i++){
+	for (i = 0; i < 2; i++){
 	RB0 = 0;
 	__delay_ms(1000);
 	RB0 = 1;
