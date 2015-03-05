@@ -64,35 +64,35 @@ void phase( int p, char motor )
 	if (motor == __MOTOR_R) {
 		if (p == 0)
 		{
-			__A_HIGH_R = __B_LOW_R = 1;
 			__B_HIGH_R = __C_HIGH_R = __A_LOW_R = __C_LOW_R = 0;
+			__A_HIGH_R = __B_LOW_R = 1;
 		}
 		else if (p == 1)
 		{
-			__B_HIGH_R = __C_LOW_R = 1;
 			__A_HIGH_R = __C_HIGH_R = __A_LOW_R = __B_LOW_R = 0;
+			__B_HIGH_R = __C_LOW_R = 1;
 		}
 		else if (p == 2)
 		{
-			__C_HIGH_R = __A_LOW_R = 1;
 			__A_HIGH_R = __B_HIGH_R = __B_LOW_R = __C_LOW_R = 0;
+			__C_HIGH_R = __A_LOW_R = 1;
 		}
 	}
 	else if (motor == __MOTOR_L) {
 		if (p == 0)
 		{
-			__A_HIGH_L = __B_LOW_L = 1;
 			__B_HIGH_L = __C_HIGH_L = __A_LOW_L = __C_LOW_L = 0;
+			__A_HIGH_L = __B_LOW_L = 1;
 		}
 		else if (p == 1)
 		{
-			__B_HIGH_L = __C_LOW_L = 1;
 			__A_HIGH_L = __C_HIGH_L = __A_LOW_L = __B_LOW_L = 0;
+			__B_HIGH_L = __C_LOW_L = 1;
 		}
 		else if (p == 2)
 		{
-			__C_HIGH_L = __A_LOW_L = 1;
 			__A_HIGH_L = __B_HIGH_L = __B_LOW_L = __C_LOW_L = 0;
+			__C_HIGH_L = __A_LOW_L = 1;
 		}
 	}
 }
