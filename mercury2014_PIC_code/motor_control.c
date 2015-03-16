@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+/*
 int leadAHighR = 0b00000100;
 int leadALowR  = 0b00001000;
 int leadBHighR = 0b00010000;
@@ -15,6 +17,7 @@ int leadBHighL = 0b000100;
 int leadBLowL  = 0b001000;
 int leadCHighL = 0b010000;
 int leadCLowL  = 0b100000;
+*/
 
 //int bitmaskR;
 //int phase1R;
@@ -25,7 +28,7 @@ void init_motors(void)
 {
 	// Right motor
 	//bitmaskR = leadAHighR | leadALowR | leadBHighR | leadBLowR | leadCHighR | leadCLowR;
-	TRISD = TRISD & 0b00000011;//(TRISD | bitmaskR ) ^ bitmaskR ;
+	//TRISD = TRISD & 0b00000011;//(TRISD | bitmaskR ) ^ bitmaskR ;
 	//bitmaskR = leadA | leadB | leadC;
 	//phase1R = leadAHighR | leadBLowR;
 	//phase2R = leadBHighR | leadCLowR;
@@ -37,27 +40,68 @@ void init_motors(void)
 }
 
 
-void motor_controller_test(void)
-{
-	/*while(1)
-	{
-		PORTD = 0b00100100;
-		__delay_ms(1000);
-		PORTD = 0b01001000;
-		__delay_ms(1000);
-		PORTD = 0b10010000;
-		__delay_ms(1000);
-	}*/
-	unsigned int p=0;
-	while( 1 ){
-		phase(p, __MOTOR_R);
-		phase(p, __MOTOR_L);
-		//p++;
-		__delay_ms(5);
+/*
+void fastloop(int p){
+	while(p%3 != 2){
+		p++;
+		lphase(p);
+		rphase(p);
 	}
+	while(1){
+			__B_HIGH_L = __C_HIGH_L = __A_LOW_L = __C_LOW_L = 0;
+			__A_HIGH_L = __B_LOW_L = 1;
+				__B_HIGH_R = __C_HIGH_R = __A_LOW_R = __C_LOW_R = 0;
+				__A_HIGH_R = __B_LOW_R = 1;
 
+			__A_HIGH_L = __C_HIGH_L = __A_LOW_L = __B_LOW_L = 0;
+			__B_HIGH_L = __C_LOW_L = 1;
+				__A_HIGH_R = __C_HIGH_R = __A_LOW_R = __B_LOW_R = 0;
+				__B_HIGH_R = __C_LOW_R = 1;
+
+			__A_HIGH_L = __B_HIGH_L = __B_LOW_L = __C_LOW_L = 0;
+			__C_HIGH_L = __A_LOW_L = 1;
+				__A_HIGH_R = __B_HIGH_R = __B_LOW_R = __C_LOW_R = 0;
+				__C_HIGH_R = __A_LOW_R = 1;
+	}
+}
+void lphase(int p){
+	p=p%3;
+		if (p == 0)
+		{
+			__B_HIGH_L = __C_HIGH_L = __A_LOW_L = __C_LOW_L = 0;
+			__A_HIGH_L = __B_LOW_L = 1;
+		}
+		else if (p == 1)
+		{
+			__A_HIGH_L = __C_HIGH_L = __A_LOW_L = __B_LOW_L = 0;
+			__B_HIGH_L = __C_LOW_L = 1;
+		}
+		else if (p == 2)
+		{
+			__A_HIGH_L = __B_HIGH_L = __B_LOW_L = __C_LOW_L = 0;
+			__C_HIGH_L = __A_LOW_L = 1;
+		}
+}
+void rphase(int p){
+	p=p%3;
+		if (p == 0)
+		{
+			__B_HIGH_R = __C_HIGH_R = __A_LOW_R = __C_LOW_R = 0;
+			__A_HIGH_R = __B_LOW_R = 1;
+		}
+		else if (p == 1)
+		{
+			__A_HIGH_R = __C_HIGH_R = __A_LOW_R = __B_LOW_R = 0;
+			__B_HIGH_R = __C_LOW_R = 1;
+		}
+		else if (p == 2)
+		{
+			__A_HIGH_R = __B_HIGH_R = __B_LOW_R = __C_LOW_R = 0;
+			__C_HIGH_R = __A_LOW_R = 1;
+		}
 }
 
+*/
 void phase( int p, char motor )
 {
 	p = p % 3;

@@ -7,13 +7,15 @@ void init_sensors(void)
 {
 
 }
+int get_value(char sensor); // prototype to shut up warnings..
+
 void sensor_test(void)
 {
 	while(1){
-		printf( "%d", get_val(0) );
+		printf( "%d", get_value(0) );
 	}
 }
-char get_value(char sensor)
+int get_value(char sensor)
 {
 	// see datasheet for bit interpretation
 	ADCON0 = (0b01 << 7) | (sensor<<3) | (0b001);  
@@ -27,7 +29,7 @@ char get_value(char sensor)
 
 
 // sensor 0-7, selecting which channel is used
-char get_dist(char sensor)
+int get_dist(char sensor)
 {
 	int val = get_value(sensor);
 	return val * 1;

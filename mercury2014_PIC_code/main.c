@@ -3,61 +3,62 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-__CONFIG(FOSC_XT & WDTE_OFF & PWRTE_OFF & BOREN_OFF &
+__CONFIG(FOSC_HS & WDTE_OFF & PWRTE_OFF & BOREN_OFF &
    LVP_ON & WRT_OFF & DEBUG_ON & CPD_OFF & CP_OFF);
 
-void LCD_init(void){
-	// ...
-	putch( 0 );
+void init(){
+	// Turn on power LED
+	TRISB &= 0b11111110;
+	LED = 1;
+
+	init_usart();
+	init_motors();
+	init_servos();
+}
+
+void delayLoop(unsigned int n){
+	for(int j=n;j>0;j--){
+		NOP();
+	}
 }
 
 int main()
 {
-	// Turn on power LED
-	TRISB &= 0b11111110;
-	RB0 = 1;
+	init();
 
 	TRISD = 0b00000000;
-	init_usart();
+	int i = 0;
+	for (i = 0; i < 10; i++){
+		LED = 0;
+		__delay_ms(100);
+		LED = 1;
+		__delay_ms(100);
+	}
 	printf("Hello!");
 
-	int i = 0;
-	for (i = 0; i < 2; i++){
-	RB0 = 0;
-	__delay_ms(1000);
-	RB0 = 1;
-	__delay_ms(1000);
+	unsigned int p = 0;
+	unsigned int n = 255;
+
+	setServo(__SERVO, 30);
+
+	while(1){
 	}
 
-	motor_controller_test();
+	//for (i = 0; i < 2; i++){
+	while(1){
+		if (n>0){n--;}
+		//if (n==0){n=255;fastloop(p);}
 
-	/*
-	while(1)
-	{
-		PORTD = 0b00100100;
-		//__delay_ms(10);
-		//PORTD = 0;
-		__delay_ms(10);
-		PORTD = 0b01001000;
-		__delay_ms(10);
-		//PORTD = 0;
-		//__delay_ms(10);
-		PORTD = 0b10010000;
-		__delay_ms(10);
-		//PORTD = 0;
-		//__delay_ms(10);
+		if (p>=100){p=0;} // can't rely on overflow to reset p=0, because overflow happens on a number NOT divisible by 3. ex 256%3=1 while 0%3=0. this results in a skipped phase. instead we force a reset at an even multiple of 3.
+
+		p++;
+		phase(p, __MOTOR_L);
+		phase(p, __MOTOR_R);
+		__delay_ms(100);
+		//setServo( __SERVO, p/10 + 10 );
+		//delayLoop( n );
 	}
-	*/
-	
-/*	
-	init_motors();
+	//motor_controller_test();
 
-	//***********************************************
-	// The following function is a simple test program
-	// for the motor controller circuit. DO NOT keep
-	// this test in the final program.
-	//***********************************************
-	motor_controller_test();
-*/	
-return 0;
+	return 0;
 }
