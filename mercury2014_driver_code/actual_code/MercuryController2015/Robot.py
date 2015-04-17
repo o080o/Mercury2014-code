@@ -4,12 +4,13 @@
 import pygame.surfarray
 import time
 import socket
+import math
 
 #initiate pygame 
 pygame.init()
 pygame.joystick.init()
-#xbox360 = pygame.joystick.Joystick(0)
-#xbox360.init() 
+xbox360 = pygame.joystick.Joystick(0)
+xbox360.init() 
 
 # Xbox controller definitions
 AXIS_LX = 0
@@ -58,9 +59,11 @@ userInput = ""
 losCounter = 0
 speed = 0
 direction = 0
-msg = ""
-parameters = []
-SENSITIVITY = 0.5
+msg1 = ""
+msg2 = ""
+parameters1 = []
+parameters2 = []
+SENSITIVITY = 0.25
 
 pygame.init()
 size = width, height = 640, 480
@@ -74,39 +77,41 @@ while 1:
 	if pygame.joystick.get_count < 1:
 		print "No Joysticks!"
 		exit = True
-
+	
+	msg2 = ""
+	
 	for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				exit = True
 			elif event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_UP:
-					msg = "setSpeed"
-					parameters = [ "5000", "1" ]
+					msg1 = "setSpeed"
+					parameters1 = [ "5000", "1" ]
 				elif event.key == pygame.K_DOWN:
-					msg = "setSpeed"
-					parameters = [ "5000", "0" ]
+					msg1 = "setSpeed"
+					parameters1 = [ "5000", "0" ]
 				elif event.key == pygame.K_LEFT:
-					msg = "setSteering"
-					parameters = [ "0" ]
+					msg1 = "setSteering"
+					parameters1 = [ "0" ]
 				elif event.key == pygame.K_RIGHT:
-					msg = "setSteering"
-					parameters = [ "90" ]
+					msg1 = "setSteering"
+					parameters1 = [ "90" ]
 				elif event.key == pygame.K_w:
-					msg = "setClawMotion"
-					parameters = [ "2" ]
+					msg1 = "setClawMotion"
+					parameters1 = [ "2" ]
 				elif event.key == pygame.K_s:
-					msg = "setClawMotion"
-					parameters = [ "0" ]
+					msg1 = "setClawMotion"
+					parameters1 = [ "0" ]
 			elif event.type == pygame.KEYUP:
 				if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-					msg = "setSpeed"
-					parameters = [ "0", "1" ]
+					msg1 = "setSpeed"
+					parameters1 = [ "0", "1" ]
 				if event.key == pygame.K_w or event.key == pygame.K_s:
-					msg = "setClawMotion"
-					parameters = [ "1" ]
+					msg1 = "setClawMotion"
+					parameters1 = [ "1" ]
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-					msg = "setSteering"
-					parameters = [ "45" ]
+					msg1 = "setSteering"
+					parameters1 = [ "45" ]
 			elif event.type == pygame.JOYBUTTONDOWN:               #button press
 				'''for i in range(0, xbox360.get_numbuttons()):
 					if(xbox360.get_button(i) == True):
@@ -114,19 +119,23 @@ while 1:
 				buttonPressed = event.button
 				print "Button %d pressed!" % buttonPressed
 				if buttonPressed == BUTTON_B:
-					msg = "setClawMotion"
-					parameters = [ "2" ]
+					msg1 = "setClawMotion"
+					parameters1 = [ "2" ]
 				elif buttonPressed == BUTTON_A:
-					msg = "setClawMotion"
-					parameters = [ "0" ]
+					msg1 = "setClawMotion"
+					parameters1 = [ "0" ]
 			elif event.type == pygame.JOYBUTTONUP:
 				if (event.button == BUTTON_B) or (event.button == BUTTON_A):
-					msg = "setClawMotion"
-					parameters = [ "1" ]
+					msg1 = "setClawMotion"
+					parameters1 = [ "1" ]
 			elif event.type == pygame.JOYAXISMOTION:                #joystick movement
-				if event.axis == AXIS_LY:
-					speed = -100 * xbox360.get_axis(AXIS_LY)
-					speed = int( ( SENSITIVITY * (speed * speed * speed) ) + ( (1 - SENSITIVITY) * speed ) )
+				if event.axis == AXIS_LY or event.axis == AXIS_LX:
+					x = xbox360.get_axis(AXIS_LX)
+					y = xbox360.get_axis(AXIS_LY)
+					
+					x = int( ( SENSITIVITY * (x * x * x) ) + ( (1 - SENSITIVITY) * x ) )
+					y = int( ( SENSITIVITY * (y * y * y) ) + ( (1 - SENSITIVITY) * y ) )
+					speed = -100 * math.sqrt(x*x + y*y)
 					if( (speed < 20) and (speed > -20) ):
 						speed = 0;
 					elif(speed > 20):
@@ -134,16 +143,18 @@ while 1:
 					elif(speed < -20):
 						speed = speed + 20
 					
+					print "DEBUG -- speed = %d" % (speed)
+					
 					direction = 0
 					if speed > 0:
 						direction = 1
 						
 					#Scale from range of (-80, 80) to range of (0, 5000)
-					wheelAngle = ( ( ( 5000 - 0 ) * ( wheelAngle - (-80) ) ) / (80 - (-80) ) ) + 0
-					
-					msg = "setSpeed"
-					parameters = [str(speed), str(direction)]
-				elif event.axis == AXIS_LX:
+					speed = ( ( ( 5000 - 0 ) * ( speed - (-80) ) ) / (80 - (-80) ) ) + 0
+	
+					msg1 = "setSpeed"
+					parameters1 = [str(speed), str(direction)]
+				#elif event.axis == AXIS_LX:
 					wheelAngle = 100 * xbox360.get_axis(AXIS_LX)
 					if( (wheelAngle < 20) and (wheelAngle > -20) ):
 						wheelAngle = 0;
@@ -155,8 +166,8 @@ while 1:
 					#Scale from range of (-80, 80) to range of (0, 90)
 					wheelAngle = ( ( ( 90 - 0 ) * ( wheelAngle - (-80) ) ) / (80 - (-80) ) ) + 0
 					
-					msg = "setSteering"
-					parameters = [ str(wheelAngle) ]
+					msg2 = "setSteering"
+					parameters2 = [ str(wheelAngle) ]
 				elif event.axis == AXIS_RY:
 					cannonMotion = 100 * xbox360.get_axis(AXIS_RY)
 					if( (cannonMotion < 20) and (cannonMotion > -20) ):
@@ -169,8 +180,8 @@ while 1:
 					#Scale from range of (-80, 80) to range of (0, 2)
 					cannonMotion = ( ( ( 2 - 0 ) * ( cannonMotion - (-80) ) ) / (80 - (-80) ) ) + 0
 					
-					msg = "setCannonMotion"
-					parameters = [ str(cannonMotion) ]
+					msg1 = "setCannonMotion"
+					parameters1 = [ str(cannonMotion) ]
 			'''elif event.type == JOYHATMOTION:                        #D-pad
 				if xbox360.get_hat(0) == [0, 1]:
 					print "D-Pad up!"
@@ -180,8 +191,8 @@ while 1:
 					print "D-Pad down!"
 				elif xbox360.get_hat(0) == [-1, 0]:
 					"D-pad left!" '''
-	sendPacket(msg, parameters)
-	print "%d %s %s" %(packetID - 1, msg, parameters)
+	sendPacket(msg1, parameters1)
+	print "%d %s %s" %(packetID - 1, msg1, parameters1)
 	time.sleep(0.05)
 	try:
 		id, command, params = parseMessage()
@@ -196,3 +207,21 @@ while 1:
 		losCounter += 1
 	if(losCounter >= 10):
 		print "SIGNAL LOST!"
+	
+	if(msg2 != ""):
+		sendPacket(msg2, parameters2)
+		print "%d %s %s" %(packetID - 1, msg1, parameters1)
+		time.sleep(0.05)
+		try:
+			id, command, params = parseMessage()
+			if(id == 0 and int(params[0]) == packetID - 1):
+				print "%d %s %s" % (id, command, params)
+				losCounter = 0
+			else:
+				print "Robot didn't acknowledge"
+				losCounter += 1
+		except:
+			print "Robot didn't acknowledge"
+			losCounter += 1
+		if(losCounter >= 10):
+			print "SIGNAL LOST!"
