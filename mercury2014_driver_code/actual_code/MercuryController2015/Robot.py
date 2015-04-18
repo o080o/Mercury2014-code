@@ -186,9 +186,11 @@ while 1:
 				elif event.key == pygame.K_w:
 					#msg1 = "setClawMotion"
 					#parameters1 = [ "2" ]
+					pass
 				elif event.key == pygame.K_s:
 					#msg1 = "setClawMotion"
 					#parameters1 = [ "0" ]
+					pass
 			elif event.type == pygame.KEYUP:
 				if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
 					data[0] = chr(0 & _0thByte)
@@ -208,6 +210,7 @@ while 1:
 				if event.key == pygame.K_w or event.key == pygame.K_s:
 					#msg1 = "setClawMotion"
 					#parameters1 = [ "1" ]
+					pass
 				if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
 					lTurnServoOut 	= buildMessage(lTurnServoNeutral, _lTurnServo)
 					rTurnServoOut 	= buildMessage(rTurnServoNeutral, _rTurnServo)
