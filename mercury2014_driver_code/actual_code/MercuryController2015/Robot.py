@@ -108,8 +108,8 @@ def parseMessage():
 	lst = receivedMessage.split(" ")
 	command = lst[0]
 	params = lst[1:] 
-	ack = "\0 ACK %d" % receivedID
-	robot.sendto(ack, (ip, port))
+	#ack = "\0 ACK %d" % receivedID
+	#robot.sendto(ack, (ip, port))
 	return (receivedID, command, params)
 
 def buildMessage(value, mask):
@@ -339,13 +339,14 @@ while 1:
 	# END OF EVENT LOOP -----------------------------------------------------------
 	
 	for msg in toSend:
+	#msg = chr(0b00010000) + chr(0b00000000) + chr(0b10101010) + chr(0b11111111)
 		sendPacket(msg)
 		print "%d %s" %(packetID - 1, ' '.join(format(ord(x), 'b') for x in msg))
-		time.sleep(0.2)
+		time.sleep(0.5)
 		try:
 			id, command, params = parseMessage()
 			if(id == 0 and int(params[0]) == packetID - 1):
-				print "%d %s %s" % (id, command)
+				print "%d %s" % (id, command)
 				losCounter = 0
 			else:
 				print "Robot didn't acknowledge"
