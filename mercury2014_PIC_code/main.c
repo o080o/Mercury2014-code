@@ -39,10 +39,8 @@ int main()
 	unsigned int p = 0;
 	unsigned int n = 255;
 
-	setServo(__SERVO, 30);
+	//setServo(__SERVO, 30);
 
-	while(1){
-	}
 
 	//for (i = 0; i < 2; i++){
 	while(1){
@@ -52,6 +50,7 @@ int main()
 		if (p>=100){p=0;} // can't rely on overflow to reset p=0, because overflow happens on a number NOT divisible by 3. ex 256%3=1 while 0%3=0. this results in a skipped phase. instead we force a reset at an even multiple of 3.
 
 		p++;
+		p = 2;
 		phase(p, __MOTOR_L);
 		phase(p, __MOTOR_R);
 		__delay_ms(100);

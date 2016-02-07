@@ -10,10 +10,10 @@
 #define LED				RB0
 #define __A_HIGH_R		RD7
 #define __A_LOW_R		RD6
-#define __B_HIGH_R		RD5
+#define __B_HIGH_R		RD5 
 #define __B_LOW_R		RD4
 #define __C_HIGH_R		RD3
-#define __C_LOW_R		RD2
+#define __C_LOW_R		RD2 
 
 #define __A_HIGH_L		RD0
 #define __A_LOW_L		RD1
