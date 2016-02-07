@@ -1,0 +1,10 @@
+_putch: CODE, 1137 0 12
+___awmod: CODE, 1409 0 102
+_main: CODE, 1511 0 109
+_motor_controller_test: CODE, 1223 0 40
+___lwdiv: CODE, 1331 0 78
+_printf: CODE, 1808 0 240
+___lwmod: CODE, 1263 0 68
+_init_usart: CODE, 1149 0 13
+_phase: CODE, 1620 0 188
+Total: 850
